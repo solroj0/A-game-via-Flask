@@ -1,2 +1,3 @@
 # A-game-via-Flask
-My goal is to create an original version of Tic-Tac-Toe on Flask
+I am creating Ultimate TicTacToe, a spin on the original wwhere you have 9 inscribed games in one. 
+This is done via Flask.
