@@ -8,6 +8,9 @@ let moves = 0; // Counter for the number of moves
 
 function makeMove(row, col) {
     const cell = document.getElementById(`cell_${row}_${col}`);
+    const newGameButton = document.getElementById('newGameButton');
+    const undoButton = document.getElementById('undoButton');
+    const messageElement = document.getElementById('message'); // Added this line
 
     if (board[row][col] === '' && !cell.disabled) {
         board[row][col] = currentPlayer;
@@ -18,15 +21,26 @@ function makeMove(row, col) {
         if (checkVictory()) {
             document.getElementById('message').innerText = `Player ${currentPlayer} wins!`;
             disableAllButtons();
-            document.getElementById('retryButton').style.display = 'block';
+            newGameButton.disabled = false;
+            undoButton.disabled = true;
+            showMessagePopup();
         } else if (moves === 9) {
-            // All slots filled, and no victory (draw)
             document.getElementById('message').innerText = "It's a draw!";
-            document.getElementById('retryButton').style.display = 'block';
+            newGameButton.disabled = false;
+            undoButton.disabled = true;
+            showMessagePopup();
         } else {
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            newGameButton.disabled = false;
+            undoButton.disabled = false;
         }
     }
+}
+
+function undoMove() {
+    // Implement logic to undo the last move (if possible)
+    // For simplicity, you may want to implement this functionality based on your specific requirements.
+    // This may involve keeping track of the previous moves in a stack or array.
 }
 
 function checkVictory() {
@@ -79,7 +93,84 @@ function resetGame() {
         cell.disabled = false; // Enable the buttons
     }
 
-    // Clear the message and hide the retry button
-    document.getElementById('message').innerText = '';
-    document.getElementById('retryButton').style.display = 'none';
+    // Hide the message with animation
+    animateHideMessage();
+}
+
+function animateHideMessage() {
+    const messageElement = document.getElementById('message');
+
+    // Move the message above the center with opacity 0
+    messageElement.style.transform = 'translate(-50%, -100%)';
+    messageElement.style.opacity = 0;
+
+    // Use requestAnimationFrame for smoother animation
+    function moveAboveCenter() {
+        let currentY = parseFloat(messageElement.style.transform.split(',')[1]) || -100;
+        let targetY = -100;
+        let currentOpacity = parseFloat(messageElement.style.opacity) || 0;
+        let targetOpacity = 0;
+
+        // Calculate the next position
+        let newY = currentY + (targetY - currentY) * 0.1;
+        let newOpacity = currentOpacity + (targetOpacity - currentOpacity) * 0.1;
+
+        // Apply the new position and opacity
+        messageElement.style.transform = `translate(-50%, ${newY}%)`;
+        messageElement.style.opacity = newOpacity;
+
+        // Continue the animation until the target is reached
+        if (Math.abs(newY - targetY) > 0.1 || Math.abs(newOpacity - targetOpacity) > 0.01) {
+            requestAnimationFrame(moveAboveCenter);
+        } else {
+            // After animation completes, hide the message
+            messageElement.style.display = 'none';
+        }
+    }
+
+    // Start the animation
+    moveAboveCenter();
+}
+
+
+function showMessagePopup() {
+    const messageElement = document.getElementById('message');
+
+    // Show the message popup
+    messageElement.style.display = 'block';
+
+    // Start animation
+    animateMessage();
+}
+
+function animateMessage() {
+    const messageElement = document.getElementById('message');
+
+    // Start position above the center
+    messageElement.style.transform = 'translate(-50%, -100%)';
+    messageElement.style.opacity = 0;
+
+    // Use requestAnimationFrame for smoother animation
+    function moveTowardsCenter() {
+        let currentY = parseFloat(messageElement.style.transform.split(',')[1]) || -100;
+        let targetY = -50;
+        let currentOpacity = parseFloat(messageElement.style.opacity) || 0;
+        let targetOpacity = 0.8;
+
+        // Calculate the next position
+        let newY = currentY + (targetY - currentY) * 0.1;
+        let newOpacity = currentOpacity + (targetOpacity - currentOpacity) * 0.1;
+
+        // Apply the new position and opacity
+        messageElement.style.transform = `translate(-50%, ${newY}%)`;
+        messageElement.style.opacity = newOpacity;
+
+        // Continue the animation until the target is reached
+        if (Math.abs(newY - targetY) > 0.1 || Math.abs(newOpacity - targetOpacity) > 0.01) {
+            requestAnimationFrame(moveTowardsCenter);
+        }
+    }
+
+    // Start the animation
+    moveTowardsCenter();
 }

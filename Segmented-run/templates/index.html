@@ -6,7 +6,22 @@
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
+
 <body>
+    
+    <div id="background"></div>
+
+    <div id="title">Tic Tac Toe</div>
+
+    <!-- Move the buttons outside the header -->
+    <button id="undoButton" onclick="undoMove()" 
+        style="position: fixed; top: 20px; right: 20px; z-index: 1;" disabled>Undo</button>
+    <button id="newGameButton" onclick="resetGame()" 
+        style="position: fixed; top: 20px; right: 60px; z-index: 1;">New Game</button>
+
+    <div id="message"></div>
+ 
     <div id="board">
         <button class="cell" id="cell_0_0" onclick="makeMove(0, 0)"></button>
         <button class="cell" id="cell_0_1" onclick="makeMove(0, 1)"></button>
@@ -18,8 +33,8 @@
         <button class="cell" id="cell_2_1" onclick="makeMove(2, 1)"></button>
         <button class="cell" id="cell_2_2" onclick="makeMove(2, 2)"></button>
     </div>
-    <div id="message"></div>
-    <button id="retryButton" onclick="resetGame()" style="display: none;">Retry</button>
+    
+    
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
