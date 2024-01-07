@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px; /* Add uniform spacing between buttons */
+            margin-bottom: 20px; /* Add margin to separate the grid from the counters */
+        }
+
+        .symbolButton {
+            width: 90px; /* Adjust the width as needed */
+            height: 90px; /* Adjust the height as needed */
+            font-size: 36px; /* Adjust the font size as needed */
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #counter {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #retryButton {
+            display: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic-Tac-Toe Example</h1>
+    
+    <div class="container">
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+    </div>
+
+    <div class="container">
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+    </div>
+
+    <div class="container">
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+        <button class="symbolButton" onclick="buttonClicked(this)"></button>
+    </div>
+
+    <div id="counter">X Count: <span id="redCounter">0</span> | O Count: <span id="blueCounter">0</span></div>
+
+    <button id="retryButton" onclick="retryClicked()">Retry</button>
+
+    <script>
+        var currentPlayer = 'X';
+        var redCounter = 0;
+        var blueCounter = 0;
+
+        function updateCounters() {
+            document.getElementById('redCounter').innerText = redCounter;
+            document.getElementById('blueCounter').innerText = blueCounter;
+
+            // Check if all buttons are disabled
+            var allButtonsDisabled = Array.from(document.getElementsByClassName('symbolButton')).every(button => button.disabled);
+
+            // Show or hide the retry button based on the state of the buttons
+            document.getElementById('retryButton').style.display = allButtonsDisabled ? 'block' : 'none';
+        }
+
+        function buttonClicked(button) {
+            // Check if the button is already clicked
+            if (button.innerText === 'X' || button.innerText === 'O') {
+                return;
+            }
+
+            // Set the button text and background color based on the current player
+            button.innerText = currentPlayer;
+            button.style.backgroundColor = (currentPlayer === 'X') ? 'red' : 'blue';
+
+            // Update the counters based on the current player
+            if (currentPlayer === 'X') {
+                redCounter++;
+            } else {
+                blueCounter++;
+            }
+
+            // Toggle the current player between 'X' and 'O'
+            currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+
+            // Disable the button to prevent further clicks
+            button.disabled = true;
+
+            // Update the counters display
+            updateCounters();
+        }
+
+        function retryClicked() {
+            // Reset counters
+            redCounter = 0;
+            blueCounter = 0;
+
+            // Reset button text, background color, and enable them
+            Array.from(document.getElementsByClassName('symbolButton')).forEach(button => {
+                button.innerText = '';
+                button.style.backgroundColor = 'white';
+                button.disabled = false;
+            });
+
+            // Hide the retry button
+            document.getElementById('retryButton').style.display = 'none';
+
+            // Update the counters display
+            updateCounters();
+
+            // Reset the current player to 'X'
+            currentPlayer = 'X';
+        }
+    </script>
+</body>
+</html>
