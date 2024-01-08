@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <div id="background"></div>
+
+    <div id="title">Tic Tac Toe</div>
+
+    <!-- Move the buttons outside the header -->
+    <button id="undoButton" onclick="undoMove()" style="position: fixed; top: 20px; right: 20px; z-index: 1;" disabled>Undo</button>
+    <button id="newGameButton" onclick="resetGame()" style="position: fixed; top: 20px; right: 60px; z-index: 1;">New Game</button>
+
+    <div id="message"></div>
+ 
+    <div id="board">
+        <button class="cell" id="cell_0_0" onclick="makeMove(0, 0)"></button>
+        <button class="cell" id="cell_0_1" onclick="makeMove(0, 1)"></button>
+        <button class="cell" id="cell_0_2" onclick="makeMove(0, 2)"></button>
+        <button class="cell" id="cell_1_0" onclick="makeMove(1, 0)"></button>
+        <button class="cell" id="cell_1_1" onclick="makeMove(1, 1)"></button>
+        <button class="cell" id="cell_1_2" onclick="makeMove(1, 2)"></button>
+        <button class="cell" id="cell_2_0" onclick="makeMove(2, 0)"></button>
+        <button class="cell" id="cell_2_1" onclick="makeMove(2, 1)"></button>
+        <button class="cell" id="cell_2_2" onclick="makeMove(2, 2)"></button>
+    </div>
+    
+    <!-- Include the new JavaScript files -->
+    <script type="module" src="{{ url_for('static', filename='js/modules/player.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/modules/board.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/modules/ui.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
